@@ -1,4 +1,4 @@
-package com.codeinger.notification_fcm;
+package com.codeinger.notification_fcm.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
+import com.codeinger.notification_fcm.R;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class SplashActivity extends AppCompatActivity {
