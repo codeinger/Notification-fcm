@@ -1,10 +1,12 @@
 package com.codeinger.notification_fcm.adapter;
 
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -12,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.codeinger.notification_fcm.R;
 import com.codeinger.notification_fcm.model.User;
+import com.codeinger.notification_fcm.ui.SendNotificationActivity;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.squareup.picasso.Callback;
@@ -25,10 +28,20 @@ public class AllUserAdapter extends FirebaseRecyclerAdapter<User, AllUserAdapter
     }
 
     @Override
-    protected void onBindViewHolder(@NonNull AllUserViewHolder holder, int position, @NonNull User model) {
+    protected void onBindViewHolder(@NonNull final AllUserViewHolder holder, final int position, @NonNull User model) {
           holder.email.setText(model.getEmail());
           holder.name.setText(model.getName());
-        Picasso.get().load(model.getImage()).into(holder.image);
+          Picasso.get().load(model.getImage()).into(holder.image);
+
+          holder.main.setOnClickListener(new View.OnClickListener() {
+              @Override
+              public void onClick(View v) {
+                 String id = getRef(position).getKey();
+                 Intent intent = new Intent(holder.main.getContext(),SendNotificationActivity.class);
+                 intent.putExtra("id",id);
+                  holder.main.getContext().startActivity(intent);
+              }
+          });
     }
 
     @NonNull
@@ -42,6 +55,7 @@ public class AllUserAdapter extends FirebaseRecyclerAdapter<User, AllUserAdapter
 
         ImageView image;
         TextView name,email;
+        LinearLayout main;
 
         public AllUserViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -49,6 +63,7 @@ public class AllUserAdapter extends FirebaseRecyclerAdapter<User, AllUserAdapter
             image = itemView.findViewById(R.id.image);
             name = itemView.findViewById(R.id.name);
             email = itemView.findViewById(R.id.email);
+            main = itemView.findViewById(R.id.main);
         }
     }
 }
