@@ -6,8 +6,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
-import com.codeinger.notification_fcm.ui.CloudFunctionFragment;
-import com.codeinger.notification_fcm.ui.RestApiFragment;
+import com.codeinger.notification_fcm.ui.fragment.CloudFunctionFragment;
+import com.codeinger.notification_fcm.ui.fragment.RestApiFragment;
 
 public class TabAdapter extends FragmentPagerAdapter {
 

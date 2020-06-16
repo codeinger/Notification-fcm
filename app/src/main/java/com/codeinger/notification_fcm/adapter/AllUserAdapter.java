@@ -1,7 +1,6 @@
 package com.codeinger.notification_fcm.adapter;
 
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,10 +13,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.codeinger.notification_fcm.R;
 import com.codeinger.notification_fcm.model.User;
-import com.codeinger.notification_fcm.ui.SendNotificationActivity;
+import com.codeinger.notification_fcm.ui.activity.SendNotificationActivity;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 public class AllUserAdapter extends FirebaseRecyclerAdapter<User, AllUserAdapter.AllUserViewHolder> {

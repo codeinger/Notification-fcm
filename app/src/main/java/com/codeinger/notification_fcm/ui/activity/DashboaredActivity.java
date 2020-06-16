@@ -1,4 +1,4 @@
-package com.codeinger.notification_fcm.ui;
+package com.codeinger.notification_fcm.ui.activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -7,11 +7,21 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 
 import com.codeinger.notification_fcm.R;
+import com.codeinger.notification_fcm.ui.fragment.AllUserFragment;
+import com.codeinger.notification_fcm.ui.fragment.NotificationFragment;
+import com.codeinger.notification_fcm.ui.fragment.ProfileFragment;
+import com.codeinger.notification_fcm.ui.fragment.TopicFragment;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 
 public class DashboaredActivity extends AppCompatActivity {
 
@@ -22,6 +32,11 @@ public class DashboaredActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+
+
+
 
         navigationView = findViewById(R.id.navigation);
         toolbar = findViewById(R.id.toolbar);

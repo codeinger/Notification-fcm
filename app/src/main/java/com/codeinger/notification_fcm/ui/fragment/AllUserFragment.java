@@ -1,4 +1,4 @@
-package com.codeinger.notification_fcm.ui;
+package com.codeinger.notification_fcm.ui.fragment;
 
 import android.app.Activity;
 import android.os.Bundle;

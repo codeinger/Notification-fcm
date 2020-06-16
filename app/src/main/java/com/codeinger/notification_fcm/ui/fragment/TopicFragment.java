@@ -1,4 +1,4 @@
-package com.codeinger.notification_fcm.ui;
+package com.codeinger.notification_fcm.ui.fragment;
 
 import android.os.Bundle;
 
@@ -65,6 +65,16 @@ public class TopicFragment extends Fragment {
         super.onStop();
         adapter.stopListening();
     }
+
+
+//      "data": {
+//        "title": "forground Check this Mobile (title)",
+//        "body": "forground Rich Notification testing (body)"
+//        "click_action":"com.codeinger.notificationdemo.MyClickAction",
+//        "image": "https://camo.githubusercontent.com/f8ea5eab7494f955e90f60abc1d13f2ce2c2e540/68747470733a2f2f662e636c6f75642e6769746875622e636f6d2f6173736574732f323037383234352f3235393331332f35653833313336322d386362612d313165322d383435332d6536626439353663383961342e706e67"
+//      }
+
+//     https://firebase.google.com/docs/reference/fcm/rest/v1/projects.messages
 
 
 }

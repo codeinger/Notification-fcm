@@ -1,4 +1,4 @@
-package com.codeinger.notification_fcm.ui;
+package com.codeinger.notification_fcm.ui.fragment;
 
 import android.os.Bundle;
 
@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import com.codeinger.notification_fcm.R;
 import com.codeinger.notification_fcm.adapter.NotificationAdapter;
 import com.codeinger.notification_fcm.model.Notification;
+import com.codeinger.notification_fcm.model.User;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
@@ -20,13 +21,13 @@ import com.google.firebase.database.FirebaseDatabase;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class CloudFunctionFragment extends Fragment {
+public class RestApiFragment extends Fragment {
 
     private View view;
     private RecyclerView recyclerView;
     private NotificationAdapter adapter;
 
-    public CloudFunctionFragment() {
+    public RestApiFragment() {
         // Required empty public constructor
     }
 
@@ -34,8 +35,7 @@ public class CloudFunctionFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        view = inflater.inflate(R.layout.fragment_cloud_function, container, false);
+        view = inflater.inflate(R.layout.fragment_rest_api, container, false);
 
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -43,11 +43,12 @@ public class CloudFunctionFragment extends Fragment {
         FirebaseRecyclerOptions<Notification> options =
                 new FirebaseRecyclerOptions.Builder<Notification>()
                         .setQuery(FirebaseDatabase.getInstance().getReference().child("Notification")
-                                .child(FirebaseAuth.getInstance().getUid()).child("CloudFuncation"), Notification.class)
+                                .child(FirebaseAuth.getInstance().getUid()).child("RestApi"), Notification.class)
                         .build();
 
         adapter = new NotificationAdapter(options);
         recyclerView.setAdapter(adapter);
+
         // Inflate the layout for this fragment
         return view;
     }
