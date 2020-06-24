@@ -1,0 +1,34 @@
+package com.codeinger.notification_fcm.service;
+
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.util.Log;
+
+import androidx.annotation.NonNull;
+
+import com.codeinger.notification_fcm.utils.NoficationHelper;
+import com.google.firebase.messaging.FirebaseMessagingService;
+import com.google.firebase.messaging.RemoteMessage;
+
+public class MyFirebaseMessageingService extends FirebaseMessagingService {
+    @Override
+    public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
+        super.onMessageReceived(remoteMessage);
+
+        String body = remoteMessage.getNotification().getBody();
+        String title = remoteMessage.getNotification().getTitle();
+        String image = remoteMessage.getNotification().getImageUrl().toString();
+        String clickAction = remoteMessage.getNotification().getClickAction();
+
+        String key1 = remoteMessage.getData().get("key1");
+        String key2 = remoteMessage.getData().get("key2");
+
+
+        NoficationHelper helper = new NoficationHelper(this);
+        //helper.tiggerNotification(title,body);
+        //helper.tiggerNotification(title,body,image);
+        //helper.tiggerNotification(title,body,image,clickAction);
+        helper.tiggerNotification(title,body,image,clickAction,key1,key2);
+
+    }
+}
