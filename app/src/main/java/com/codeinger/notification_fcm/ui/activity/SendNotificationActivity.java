@@ -158,12 +158,11 @@ public class SendNotificationActivity extends AppCompatActivity {
 
                         NotificationReq req = new NotificationReq(
                                 dataSnapshot.child("token").getValue().toString(),
-                                new NotificationReq.Notification(title.getText().toString(),
+                                new NotificationReq.Data_("value 1","value 2",
+                                        title.getText().toString(),
                                         description.getText().toString(),
                                         "https://image.shutterstock.com/image-photo/kiev-ukraine-may-14-2016-260nw-420838831.jpg",
-                                        "my_click"
-                                ),
-                                new NotificationReq.Data_("value 1","value 2")
+                                        "my_click","Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in")
                         );
 
                         RetrofitClient.getRetrofit(BASE_URL)

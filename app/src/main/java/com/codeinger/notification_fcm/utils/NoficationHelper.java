@@ -10,6 +10,7 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
 import com.codeinger.notification_fcm.R;
+import com.codeinger.notification_fcm.ui.activity.SendNotificationActivity;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -76,9 +77,10 @@ public class NoficationHelper {
 
     public void tiggerNotification(String title, String body, String image, String clickAction,String key1,String key2) {
 
-        Intent intent = new Intent(clickAction);
+        Intent intent = new Intent(context, SendNotificationActivity.class);
         intent.putExtra("key1",key1);
         intent.putExtra("key2",key2);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |Intent.FLAG_ACTIVITY_CLEAR_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(context,100,intent,PendingIntent.FLAG_UPDATE_CURRENT);
 
 
@@ -88,6 +90,28 @@ public class NoficationHelper {
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setStyle(new NotificationCompat.BigPictureStyle().bigPicture(getBitmapFromURL(image)))
+                .setContentIntent(pendingIntent);
+
+        NotificationManagerCompat managerCompat = NotificationManagerCompat.from(context);
+        managerCompat.notify(id,builder.build());
+
+    }
+
+    public void tiggerNotification(String title, String body, String image, String clickAction,String key1,String key2,String text) {
+
+        Intent intent = new Intent(context, SendNotificationActivity.class);
+        intent.putExtra("key1",key1);
+        intent.putExtra("key2",key2);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context,100,intent,PendingIntent.FLAG_UPDATE_CURRENT);
+
+
+        NotificationCompat.Builder builder= new NotificationCompat.Builder(context,Constants.id)
+                .setContentTitle(title)
+                .setContentText(body)
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setStyle(new NotificationCompat.BigPictureStyle().bigPicture(getBitmapFromURL(image)).setBigContentTitle(text))
                 .setContentIntent(pendingIntent);
 
         NotificationManagerCompat managerCompat = NotificationManagerCompat.from(context);
