@@ -44,7 +44,7 @@ public class SendNotificationActivity extends AppCompatActivity {
     private Button send;
     private DialogPlus dialogPlus;
     private DatabaseReference reference;
-    private String id;
+    private String id,type;
     private ProgressBar progress_bar;
 
     @Override
@@ -53,6 +53,7 @@ public class SendNotificationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_send_notification);
 
         id = getIntent().getStringExtra("id");
+        type = getIntent().getStringExtra("type");
 
 
         String key1 = getIntent().getStringExtra("key1");
@@ -87,8 +88,11 @@ public class SendNotificationActivity extends AppCompatActivity {
                 Map<String,Object> map = new HashMap<>();
                 map.put("title",title.getText().toString());
                 map.put("description",description.getText().toString());
-                map.put("id",id);
 
+                if(type.equals("topic"))
+                    map.put("topic",id);
+                else
+                    map.put("id",id);
 
                 reference.child(FirebaseAuth.getInstance().getUid())
                         .child("RestApi")
@@ -156,8 +160,10 @@ public class SendNotificationActivity extends AppCompatActivity {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
+                        String to = type.equals("topic")?"/topics/"+id:dataSnapshot.child("token").getValue().toString();
+
                         NotificationReq req = new NotificationReq(
-                                dataSnapshot.child("token").getValue().toString(),
+                                to,
                                 new NotificationReq.Data_("value 1","value 2",
                                         title.getText().toString(),
                                         description.getText().toString(),

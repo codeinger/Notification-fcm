@@ -22,9 +22,13 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -110,10 +114,54 @@ public class LoginActivity extends AppCompatActivity {
                                                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                                                     @Override
                                                     public void onComplete(@NonNull Task<Void> task) {
-                                                        progressBar.setVisibility(View.GONE);
-                                                        Toast.makeText(LoginActivity.this, "Login Successfull.", Toast.LENGTH_SHORT).show();
-                                                        startActivity(new Intent(LoginActivity.this,DashboaredActivity.class));
-                                                        finish();
+
+
+
+                                                        FirebaseDatabase.getInstance().getReference()
+                                                                .child("User")
+                                                                .child(FirebaseAuth.getInstance().getUid())
+                                                                .child("topic")
+                                                                .addListenerForSingleValueEvent(new ValueEventListener() {
+                                                                    @Override
+                                                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                                                                       if(dataSnapshot.exists()){
+                                                                           int i = 0;
+
+                                                                           for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+
+                                                                               FirebaseMessaging.getInstance().subscribeToTopic(snapshot.child("title").getValue().toString());
+
+                                                                               i++;
+                                                                               if(i==dataSnapshot.getChildrenCount()){
+                                                                                   progressBar.setVisibility(View.GONE);
+                                                                                   Toast.makeText(LoginActivity.this, "Login Successfull.", Toast.LENGTH_SHORT).show();
+                                                                                   startActivity(new Intent(LoginActivity.this,DashboaredActivity.class));
+                                                                                   finish();
+                                                                               }
+
+                                                                           }
+                                                                       }
+                                                                       else {
+                                                                           progressBar.setVisibility(View.GONE);
+                                                                           Toast.makeText(LoginActivity.this, "Login Successfull.", Toast.LENGTH_SHORT).show();
+                                                                           startActivity(new Intent(LoginActivity.this,DashboaredActivity.class));
+                                                                           finish();
+                                                                       }
+
+                                                                    }
+
+                                                                    @Override
+                                                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                                                    }
+                                                                });
+
+
+
+
+
+
                                                     }
                                                 });
 

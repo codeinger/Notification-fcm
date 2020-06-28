@@ -23,8 +23,11 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.squareup.picasso.Picasso;
 
+import java.io.IOException;
 import java.util.HashMap;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -74,6 +77,8 @@ public class ProfileFragment extends Fragment {
                         name.setText(user.getName());
                         Picasso.get().load(user.getImage()).into(image);
 
+
+
                     }
 
                     @Override
@@ -81,6 +86,33 @@ public class ProfileFragment extends Fragment {
                         loader.setVisibility(View.GONE);
                     }
                 });
+
+
+        FirebaseDatabase.getInstance().getReference()
+                .child("User")
+                .child(FirebaseAuth.getInstance().getUid())
+                .child("topic")
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        String s = "";
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                            s = s+snapshot.child("title").getValue().toString()+",";
+                        }
+
+                        topic.setText("Topic : "+s);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
+
+
+
+
 
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,10 +128,48 @@ public class ProfileFragment extends Fragment {
                         .addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
-                                loader.setVisibility(View.GONE);
-                                FirebaseAuth.getInstance().signOut();
-                                startActivity(new Intent(getContext(), LoginActivity.class));
-                                getActivity().finish();
+
+                               FirebaseDatabase.getInstance().getReference()
+                                       .child("User")
+                                       .child(FirebaseAuth.getInstance().getUid())
+                                       .child("topic")
+                                       .addListenerForSingleValueEvent(new ValueEventListener() {
+                                           @Override
+                                           public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                                              if(dataSnapshot.exists()){
+                                                  int i = 0;
+
+                                                  for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+
+                                                      FirebaseMessaging.getInstance().unsubscribeFromTopic(snapshot.child("title").getValue().toString());
+
+                                                      i++;
+                                                      if(i==dataSnapshot.getChildrenCount()){
+                                                          loader.setVisibility(View.GONE);
+                                                          FirebaseAuth.getInstance().signOut();
+                                                          startActivity(new Intent(getContext(), LoginActivity.class));
+                                                          getActivity().finish();
+                                                      }
+
+                                                  }
+                                              }
+                                              else {
+                                                  loader.setVisibility(View.GONE);
+                                                  FirebaseAuth.getInstance().signOut();
+                                                  startActivity(new Intent(getContext(), LoginActivity.class));
+                                                  getActivity().finish();
+                                              }
+
+                                           }
+
+                                           @Override
+                                           public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                           }
+                                       });
+
+
                             }
                         });
             }

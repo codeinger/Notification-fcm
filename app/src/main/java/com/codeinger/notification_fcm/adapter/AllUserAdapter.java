@@ -37,6 +37,7 @@ public class AllUserAdapter extends FirebaseRecyclerAdapter<User, AllUserAdapter
                  String id = getRef(position).getKey();
                  Intent intent = new Intent(holder.main.getContext(),SendNotificationActivity.class);
                  intent.putExtra("id",id);
+                  intent.putExtra("type","user");
                   holder.main.getContext().startActivity(intent);
               }
           });
