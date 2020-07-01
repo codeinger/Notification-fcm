@@ -120,7 +120,10 @@ public class SendNotificationActivity extends AppCompatActivity {
                 Map<String,Object> map = new HashMap<>();
                 map.put("title",title.getText().toString());
                 map.put("description",description.getText().toString());
-                map.put("id",id);
+                if(type.equals("topic"))
+                    map.put("topic",id);
+                else
+                    map.put("id",id);
 
                 reference.child(FirebaseAuth.getInstance().getUid())
                         .child("CloudFuncation")
